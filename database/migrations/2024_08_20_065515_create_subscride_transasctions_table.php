@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('subscride_transasctions', function (Blueprint $table) {
+        Schema::create('subscribe_transasctions', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->string('pay_id');
