@@ -14,10 +14,20 @@ class UnitSeeder extends Seeder
      * @return void
      */
     public function run()
-    {
-        Unit::create([
-            'name' => 'pieces',
-            'symbol' => 'pcs',
-        ]);
+{
+    $units = [
+        ['name' => 'pieces', 'symbol' => 'pcs'],
+        ['name' => 'kilograms', 'symbol' => 'kg'],
+        ['name' => 'liters', 'symbol' => 'l'],
+        ['name' => 'meters', 'symbol' => 'm'],
+        ['name' => 'boxes', 'symbol' => 'bx'],
+        ['name' => 'sets', 'symbol' => 'set'],
+        ['name' => 'dozen', 'symbol' => 'dz'],
+        // Add more units here as needed
+    ];
+
+    foreach ($units as $unit) {
+        Unit::create($unit);
     }
+}
 }
