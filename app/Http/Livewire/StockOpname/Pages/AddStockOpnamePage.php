@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\StockOpname\Pages;
 
 use App\Events\GoodsTransactionCreated;
+use App\Http\Livewire\Concerns\HandlesBarcodeScan;
 use App\Models\Dispatching;
 use App\Models\DispathcingGoods;
 use App\Models\Goods;
@@ -16,6 +17,8 @@ use Livewire\Component;
 
 class AddStockOpnamePage extends Component
 {
+    use HandlesBarcodeScan;
+
     public $categoryId;
     public $stockOpnameAt = '';
     public $goodsItems = [];

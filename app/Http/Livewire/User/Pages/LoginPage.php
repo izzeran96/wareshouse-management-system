@@ -18,6 +18,11 @@ class LoginPage extends Component
         ]);
 
         if (Auth::attempt(['email' => $this->email, 'password' => $this->password])) {
+            // Workers go straight to the scan station.
+            if (Auth::user()->hasRole('Worker')) {
+                return redirect()->to(route('worker.scan'));
+            }
+
             return redirect()->to(route('dashboard.index'));
         }
 

@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Dispatching\Pages;
 
 use App\Events\GoodsTransactionCreated;
+use App\Http\Livewire\Concerns\HandlesBarcodeScan;
 use App\Models\Dispatching;
 use App\Models\DispathcingGoods;
 use App\Models\Goods;
@@ -18,6 +19,8 @@ use Livewire\Component;
 
 class AddDispatchingPage extends Component
 {
+    use HandlesBarcodeScan;
+
     public $shipperId;
     public $dispatchAt = '';
     public $goodsItems = [];

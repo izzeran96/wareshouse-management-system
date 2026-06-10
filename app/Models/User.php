@@ -59,4 +59,36 @@ class User extends Authenticatable
         $this->attributes['password'] = bcrypt($value);
     }
 
+    public function subscribes()
+    {
+        return $this->hasMany(Subscride::class, 'user_id', 'id');
+    }
+
+    public function activeSubscribe()
+    {
+        return $this->hasOne(Subscride::class, 'user_id', 'id')
+            ->where('status', Subscride::STATUS_ACTIVE)
+            ->where('expired_date', '>=', now())
+            ->latest('expired_date');
+    }
+
+    /**
+     * Whether the user currently has access to the system.
+     *
+     * Super Admins (platform owner) and Workers (staff working under an
+     * already-paying account) always have access. The account owner
+     * (e.g. Warehouse Admin) needs an active, unexpired subscription.
+     */
+    public function hasActiveSubscription(): bool
+    {
+        if ($this->hasRole('Super Admin') || $this->hasRole('Worker')) {
+            return true;
+        }
+
+        return Subscride::query()
+            ->where('user_id', $this->id)
+            ->active()
+            ->exists();
+    }
+
 }

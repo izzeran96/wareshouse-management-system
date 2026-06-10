@@ -11,6 +11,7 @@ class AddGoodsPage extends Component
 {
     public $name;
     public $code;
+    public $barcode;
     public $categoryIds;
     public $stockLimit;
     public $unitId;
@@ -23,6 +24,7 @@ class AddGoodsPage extends Component
     protected $rules = [
         'name' => 'required|max:80',
         'code' => 'required|max:25',
+        'barcode' => 'nullable|max:64',
         'description' => 'max:200',
         'stockLimit' => 'numeric|min:0',
         'unitId' => 'required',
@@ -48,6 +50,7 @@ class AddGoodsPage extends Component
         $goods = Goods::create([
             'name' => $this->name,
             'code' => $this->code,
+            'barcode' => $this->barcode,
             'minimum_stock' => $this->stockLimit,
             'price' => $this->price,
             'unit_id' => $this->unitId,

@@ -82,6 +82,40 @@
             <span>{{ __('Roles') }}</span>
         </a>
         @endrole
+
+        @role('Worker')
+        <a href="/worker/scan" class="{{(request()->is('worker/scan*')) ? ' bg-slate-900 text-white ' : '' }} flex items-center gap-3 p-3 rounded-md mb-1 hover:bg-slate-900">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v2.25c0 .621-.504 1.125-1.125 1.125h-2.25A1.125 1.125 0 013.75 7.125v-2.25zM3.75 16.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v2.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125v-2.25zM13.5 4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v2.25c0 .621-.504 1.125-1.125 1.125h-2.25A1.125 1.125 0 0113.5 7.125v-2.25z" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 6.75h.75v.75h-.75v-.75zM16.5 6.75h.75v.75h-.75v-.75zM13.5 13.5h.75v.75h-.75v-.75zM19.5 13.5h.75v.75h-.75v-.75z" />
+            </svg>
+            <span>{{ __('Scan Station') }}</span>
+        </a>
+        @endrole
+
+        @role('Super Admin')
+        <a href="/subscribe-packages" class="{{(request()->is('subscribe-packages*')) ? ' bg-slate-900 text-white ' : '' }} flex items-center gap-3 p-3 rounded-md mb-1 hover:bg-slate-900">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M21 11.25v8.25a1.5 1.5 0 01-1.5 1.5H5.25a1.5 1.5 0 01-1.5-1.5v-8.25M12 4.875A2.625 2.625 0 109.375 7.5H12m0-2.625V7.5m0-2.625A2.625 2.625 0 1114.625 7.5H12m0 0V21m-8.625-9.75h18c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125h-18c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" />
+            </svg>
+            <span>{{ __('Subscribe Packages') }}</span>
+        </a>
+        <a href="/payment-gateway" class="{{(request()->is('payment-gateway*')) ? ' bg-slate-900 text-white ' : '' }} flex items-center gap-3 p-3 rounded-md mb-1 hover:bg-slate-900">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5z" />
+            </svg>
+            <span>{{ __('Payment Gateway') }}</span>
+        </a>
+        @endrole
+
+        @hasanyrole('Warehouse Admin')
+        <a href="/subscribe" class="{{(request()->is('subscribe') || request()->is('subscribe/*')) ? ' bg-slate-900 text-white ' : '' }} flex items-center gap-3 p-3 rounded-md mb-1 hover:bg-slate-900">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <span>{{ __('My Subscription') }}</span>
+        </a>
+        @endhasanyrole
         @can('shipper.view')
         <a
             href="/shippers"

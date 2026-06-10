@@ -51,6 +51,12 @@ class PermissionSeeder extends Seeder
             ['name' => 'shipper.create'],
             ['name' => 'shipper.update'],
             ['name' => 'shipper.delete'],
+            ['name' => 'subscribe-package.view'],
+            ['name' => 'subscribe-package.create'],
+            ['name' => 'subscribe-package.update'],
+            ['name' => 'subscribe-package.delete'],
+            ['name' => 'payment-gateway.manage'],
+            ['name' => 'worker.scan'],
         ];
 
         $superAdmin = Role::where('name', 'Super Admin')->first();
@@ -58,6 +64,18 @@ class PermissionSeeder extends Seeder
         foreach ($permissions as $permission) {
             Permission::firstOrCreate($permission);
             $superAdmin->givePermissionTo($permission['name']);
+        }
+
+        // Workers only need to view goods and create transactions via the
+        // dedicated scan station.
+        $worker = Role::where('name', 'Worker')->first();
+        if ($worker) {
+            $worker->givePermissionTo([
+                'goods.view',
+                'goods-transaction.view',
+                'goods-transaction.create',
+                'worker.scan',
+            ]);
         }
     }
 }

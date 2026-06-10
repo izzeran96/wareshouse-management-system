@@ -19,9 +19,39 @@ Route::get('/login', App\Http\Livewire\User\Pages\LoginPage::class)
 Route::get('/logout', App\Http\Livewire\User\Pages\LogoutPage::class)
     ->name('logout');
 
-Route::middleware('auth')->group(function () {
+// ToyyibPay server-to-server callback (no auth / no CSRF).
+Route::post('/subscribe/callback/{transaction}', [\App\Http\Controllers\SubscriptionController::class, 'callback'])
+    ->name('subscribe.callback');
+
+Route::middleware(['auth', 'subscribed'])->group(function () {
     Route::get('/', App\Http\Livewire\Dashboard\Pages\IndexPage::class)
         ->name('dashboard.index');
+
+    // Subscription (SaaS access) — these pages are exempt from the
+    // 'subscribed' gate so an unsubscribed account can still subscribe.
+    Route::get('/subscribe', App\Http\Livewire\Subscribe\Pages\SubscribeIndexPage::class)
+        ->name('subscribe.index');
+    Route::get('/subscribe/return/{transaction}', [\App\Http\Controllers\SubscriptionController::class, 'return'])
+        ->name('subscribe.return');
+
+    // Dedicated worker scan station.
+    Route::get('/worker/scan', App\Http\Livewire\Worker\Pages\WorkerScanPage::class)
+        ->name('worker.scan')
+        ->middleware('permission:worker.scan');
+
+    // Subscription administration (Super Admin only).
+    Route::middleware('role:Super Admin')->group(function () {
+        Route::prefix('/subscribe-packages')->group(function () {
+            Route::get('/', App\Http\Livewire\Subscribe\Pages\PackageIndexPage::class)
+                ->name('subscribe-package.index');
+            Route::get('/add', App\Http\Livewire\Subscribe\Pages\AddPackagePage::class)
+                ->name('subscribe-package.add');
+            Route::get('/{id}/edit', App\Http\Livewire\Subscribe\Pages\EditPackagePage::class)
+                ->name('subscribe-package.edit');
+        });
+        Route::get('/payment-gateway', App\Http\Livewire\Subscribe\Pages\PaymentGatewayPage::class)
+            ->name('payment-gateway.index');
+    });
 
     Route::prefix('/users')->group(function() {
         Route::get('/', App\Http\Livewire\User\Pages\UserIndexPage::class)

@@ -16,9 +16,11 @@ return new class extends Migration
         Schema::create('subscribe_packages', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->longText('description');
-            $table->float('price');
-            //foreign from subsride
+            $table->longText('description')->nullable();
+            $table->decimal('price', 10, 2)->default(0);
+            $table->unsignedInteger('duration_days')->default(30)
+                ->comment('how many days the subscription is valid for');
+            $table->boolean('is_active')->default(true);
             $table->timestamps();
         });
     }

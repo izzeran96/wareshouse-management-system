@@ -30,6 +30,25 @@
                             </div>
                         </div>
                         <div class="grid grid-cols-3 gap-6">
+                            <div class="col-span-3 sm:col-span-2" x-data="{}" @goods-barcode-scanned.window="$wire.set('barcode', $event.detail.code)">
+                                <label class="block text-sm font-medium text-gray-700">
+                                    {{ __('Barcode') }}
+                                </label>
+                                <div class="mt-1 flex rounded-md shadow-sm gap-2">
+                                    <input
+                                        wire:model.defer="barcode"
+                                        type="text"
+                                        class="block w-full flex-1 rounded-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                                        placeholder="{{ __('Barcode / QR value (optional)') }}"
+                                    >
+                                    <x-barcode-scanner event="goods-barcode-scanned" :label="__('Scan')" />
+                                </div>
+                                @error('barcode')
+                                <span class="text-sm text-red-500">{{ $message }}</span>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-3 gap-6">
                             <div class="col-span-3 sm:col-span-2">
                                 <label for="company-website" class="block text-sm font-medium text-gray-700">
                                     {{ __('Name') }}

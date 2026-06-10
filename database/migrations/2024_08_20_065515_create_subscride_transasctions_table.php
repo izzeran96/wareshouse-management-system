@@ -16,11 +16,15 @@ return new class extends Migration
         Schema::create('subscribe_transasctions', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->string('pay_id');
-            $table->string('status');
-            $table->string('transaction_description');
-            $table->float('amount');
+            $table->unsignedBigInteger('subscribe_package_id')->nullable();
+            $table->string('bill_code')->nullable()->comment('ToyyibPay bill code');
+            $table->string('pay_id')->nullable()->comment('gateway transaction id');
+            $table->string('status')->default('pending')->comment('pending|success|failed');
+            $table->string('transaction_description')->nullable();
+            $table->decimal('amount', 10, 2)->default(0);
             $table->timestamps();
+
+            $table->index('bill_code');
         });
     }
 
@@ -31,6 +35,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('subscride_transasctions');
+        Schema::dropIfExists('subscribe_transasctions');
     }
 };

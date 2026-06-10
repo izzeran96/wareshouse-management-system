@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Receiving\Pages;
 
 use App\Events\GoodsTransactionCreated;
+use App\Http\Livewire\Concerns\HandlesBarcodeScan;
 use App\Models\Goods;
 use App\Models\GoodsTransaction;
 use App\Models\GoodsTransactionCategory;
@@ -15,6 +16,8 @@ use Livewire\Component;
 
 class AddReceivingPage extends Component
 {
+    use HandlesBarcodeScan;
+
     public $supplierId;
     public $receiveAt = '';
     public $goodsItems = [];

@@ -18,6 +18,7 @@ class Goods extends Model
     protected $fillable = [
         'name',
         'code',
+        'barcode',
         'description',
         'unit_id',
         'minimum_stock',
@@ -60,5 +61,18 @@ class Goods extends Model
 
     public function scopeOutOfStock($query) {
         return $query->whereRaw('stock <= minimum_stock');
+    }
+
+    /**
+     * Find a goods record by a scanned barcode, falling back to its code/SKU.
+     */
+    public static function findByScan(string $value): ?self
+    {
+        $value = trim($value);
+
+        return static::query()
+            ->where('barcode', $value)
+            ->orWhere('code', $value)
+            ->first();
     }
 }

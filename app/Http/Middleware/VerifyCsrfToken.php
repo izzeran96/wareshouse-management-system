@@ -12,6 +12,7 @@ class VerifyCsrfToken extends Middleware
      * @var array<int, string>
      */
     protected $except = [
-        //
+        // ToyyibPay server-to-server payment callback.
+        'subscribe/callback/*',
     ];
 }

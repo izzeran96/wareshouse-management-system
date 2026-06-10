@@ -9,16 +9,25 @@ return new class extends Migration
     /**
      * Run the migrations.
      *
+     * A "subscribe" record represents a user's active/expired subscription
+     * instance to a package (SaaS access to the WMS).
+     *
      * @return void
      */
     public function up()
     {
         Schema::create('subscribes', function (Blueprint $table) {
             $table->id();
-            $table->string('period');
-            $table->string('expired_date');
-            $table->float('price');
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('subscribe_package_id')->nullable();
+            $table->string('period')->nullable()->comment('snapshot of the package title');
+            $table->timestamp('started_at')->nullable();
+            $table->timestamp('expired_date')->nullable();
+            $table->decimal('price', 10, 2)->default(0);
+            $table->string('status')->default('pending')->comment('pending|active|expired');
             $table->timestamps();
+
+            $table->index(['user_id', 'status']);
         });
     }
 
@@ -29,6 +38,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('subscrides');
+        Schema::dropIfExists('subscribes');
     }
 };

@@ -1,4 +1,4 @@
-<div>
+<div x-data="{}" @barcode-scanned.window="$wire.handleScan($event.detail.code)">
     <div class="mb-6">
         <div class="mb-3 flex items-center gap-4">
             <a href="{{ route('receiving.index') }}">
@@ -63,8 +63,9 @@
                         </div>
                     </div>
 
-                    <div class="mb-3 pb-3 border-b text-xs uppercase">
-                        {{ __('Receiving Items') }}
+                    <div class="mb-3 pb-3 border-b flex items-center justify-between">
+                        <span class="text-xs uppercase">{{ __('Receiving Items') }}</span>
+                        <x-barcode-scanner :label="__('Scan')" />
                     </div>
                     <div class="">
                         @include('livewire.components.goods-selection')
